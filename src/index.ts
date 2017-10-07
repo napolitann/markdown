@@ -1,9 +1,17 @@
+import Render from './Render'
+import { MarkDown, HTML } from './types'
 import example from './__example'
 
 export default class Napolitann {
-	static readonly example = example
+	/**
+	 * markdown example
+	 */
+	static readonly example: MarkDown = example
 
-	static convert (source: string): string {
-		return source
+	/**
+	 * render markdown to html
+	 */
+	static render (source: MarkDown): HTML {
+		return Render.toHTML(source)
 	}
 }
