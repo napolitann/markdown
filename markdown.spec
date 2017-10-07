@@ -1,3 +1,6 @@
+markdown spec
+===
+
 # H1
 ## H2
 ### H3
@@ -8,8 +11,6 @@
 - unordered list
 + ordered list
 
-___Horizontal Line___
-===Alt===
 ***bold***
 ~~~italic~~~
 ---strike---
