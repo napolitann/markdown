@@ -8,7 +8,7 @@ export type Index = number
 export type Pattern = RegExp
 
 // const SUCCESS = true
-// const FAIL = false
+const FAIL = false
 
 let token: Token
 
@@ -32,10 +32,15 @@ export default class Tokenise {
 
 			if (TOKENS.hasOwnProperty(char)) {
 				this.commit(TOKENS[char])
+			} else {
+				this.isSuccess = FAIL
 			}
 
-			if (this.checkSuccess()) continue
-			else token.remove(' ')
+			if (this.checkSuccess()) {
+				continue
+			} else {
+				token.remove(' ')
+			}
 		}
 	}
 
