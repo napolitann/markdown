@@ -8,7 +8,7 @@ export type Index = number
 export type Pattern = RegExp
 
 // const SUCCESS = true
-const FAIL = false
+// const FAIL = false
 
 let token: Token
 
@@ -27,28 +27,15 @@ export default class Tokenise {
 	}
 
 	private init (): void {
-		let countToPreventLoop = 0
-		const LOOP_LIMIT = 20
-
 		while (token.isEnd()) {
-			if (++countToPreventLoop > LOOP_LIMIT) {
-				return console.error('over clock')
-			}
+			const char = token.nextChar()
 
-			switch (token.nextChar()) {
-				case TOKENS.HEADING.text:
-					this.commit(TOKENS.HEADING); break
-				case TOKENS.ORDERED_LIST.text:
-					this.commit(TOKENS.ORDERED_LIST); break
-				case TOKENS.UNORDERED_LIST.text:
-					this.commit(TOKENS.UNORDERED_LIST); break
-				default:
-					this.isSuccess = FAIL
+			if (TOKENS.hasOwnProperty(char)) {
+				this.commit(TOKENS[char])
 			}
 
 			if (this.checkSuccess()) continue
-
-			token.remove(' ')
+			else token.remove(' ')
 		}
 	}
 
