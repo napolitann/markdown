@@ -1,3 +1,3 @@
 export default {
-	HEADING: /^#{1,6} +(.+)\S/i
+	HEADING: /^(#{1,6}) +(.*\S)/
 }
