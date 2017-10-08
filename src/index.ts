@@ -2,7 +2,7 @@ import Render from './Render'
 import { MarkDown, HTML } from './types'
 import example from './__example'
 
-export default class Napolitann {
+export default class {
 	/**
 	 * markdown example
 	 */

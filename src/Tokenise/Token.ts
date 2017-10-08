@@ -7,7 +7,7 @@ export type Pattern = RegExp
 const UNMATCHED: Token = ['', '', '']
 const space = ' '
 
-export default class Type {
+export default class {
 	private source: MarkDown
 
 	constructor (source: MarkDown) {
@@ -28,11 +28,11 @@ export default class Type {
 		return nextToken || UNMATCHED // for nonstop parsing
 	}
 
-	public remove (token: Token) {
+	public remove (token: Token): void {
 		this.source = this.source.substr(token.length)
 	}
 
-	public removeSpace () {
+	public removeSpace (): void {
 		this.remove(space)
 	}
 }

@@ -14,7 +14,6 @@ let token: Token
 
 export default class Tokenise {
 	private result: Tokens = []
-
 	private isSuccess: boolean
 
 	static init (source: MarkDown): Tokens | any {
@@ -27,11 +26,11 @@ export default class Tokenise {
 		this.init()
 	}
 
-	private init () {
+	private init (): void {
 		let countToPreventLoop = 0
 		const LOOP_LIMIT = 20
 
-		while (this.isContinueTokenise()) {
+		while (token.isEnd()) {
 			if (++countToPreventLoop > LOOP_LIMIT) {
 				return console.error('over clock')
 			}
@@ -53,28 +52,26 @@ export default class Tokenise {
 		}
 	}
 
-	private commit (tokenOptions: TokenOptions) {
+	private commit (tokenOptions: TokenOptions): void {
 		const nextToken = token.next(tokenOptions.pattern)
 		const wrapper = Wrap[tokenOptions.name]
-		const isSuccess = wrapper(nextToken, (match: string | RegExpMatchArray, result: any) => this.commitResult(match, result))
+		const isSuccess = wrapper(nextToken, (match: string | RegExpMatchArray, result: any): void => {
+			return this.commitResult(match, result)
+		})
 
 		this.isSuccess = isSuccess
 	}
 
-	private isContinueTokenise () {
-		return token.isEnd()
-	}
-
-	private checkSuccess () {
+	private checkSuccess (): boolean {
 		return this.isSuccess
 	}
 
-	private commitResult (match: string | RegExpMatchArray, result: any) {
+	private commitResult (match: string | RegExpMatchArray, result: any): void {
 		token.remove(match)
 		this.pushResult(result)
 	}
 
-	private pushResult (result: any) {
+	private pushResult (result: any): void {
 		this.result.push(result)
 	}
 }
