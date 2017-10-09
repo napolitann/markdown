@@ -12,6 +12,11 @@ class Tokens {
 	[index: string]: TokenOptions
 
 	readonly ['#'] = this[HEADING]
+	readonly ['##'] = this[HEADING]
+	readonly ['###'] = this[HEADING]
+	readonly ['####'] = this[HEADING]
+	readonly ['#####'] = this[HEADING]
+	readonly ['######'] = this[HEADING]
 	get [HEADING] () {
 		return {
 			text: '#',

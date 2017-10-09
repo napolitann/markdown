@@ -22,7 +22,7 @@ const Wrap = {
 	): boolean {
 		const {
 			0: match,
-			1: depth,
+			1: level,
 			2: token
 		} = source
 
@@ -33,7 +33,7 @@ const Wrap = {
 			token,
 			depth: 0,
 			option: {
-				level: depth.length
+				level: level.length
 			}
 		}
 

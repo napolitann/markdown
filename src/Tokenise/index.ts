@@ -27,8 +27,8 @@ export default class Tokenise {
 	}
 
 	private init (): void {
-		while (token.isEnd()) {
-			const char = token.nextChar()
+		while (!token.isEnd()) {
+			const char = token.nextToc()
 
 			if (TOKENS.hasOwnProperty(char)) {
 				this.commit(TOKENS[char])
@@ -45,7 +45,7 @@ export default class Tokenise {
 	}
 
 	private commit (tokenOptions: TokenOptions): void {
-		const nextToken = token.next(tokenOptions.pattern)
+		const nextToken = token.nextToken(tokenOptions.pattern)
 		const wrapper = Wrap[tokenOptions.name]
 		const isSuccess = wrapper(nextToken, (match: string | RegExpMatchArray, result: any): void => {
 			return this.commitResult(match, result)

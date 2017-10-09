@@ -6,6 +6,7 @@ export type Pattern = RegExp
 
 const UNMATCHED: Token = ['', '', '']
 const space = ' '
+const patternString = /\S+/
 
 export default class {
 	private source: MarkDown
@@ -15,17 +16,7 @@ export default class {
 	}
 
 	public isEnd (): boolean {
-		return !!this.source
-	}
-
-	public nextChar (): Char {
-		return this.source[0]
-	}
-
-	public next (pattern: Pattern): Token {
-		const nextToken = this.source.match(pattern)
-
-		return nextToken || UNMATCHED // for nonstop parsing
+		return !this.source
 	}
 
 	public remove (token: Token): void {
@@ -34,5 +25,22 @@ export default class {
 
 	public removeSpace (): void {
 		this.remove(space)
+	}
+
+	public nextToc (): Char {
+		const token = this.next(patternString)
+		// console.log(`token: ${ token }`)
+
+		return token[0]
+	}
+
+	public nextToken (pattern: Pattern): Token {
+		return this.next(pattern)
+	}
+
+	private next (pattern: Pattern): Token {
+		const token = this.source.match(pattern)
+
+		return token || UNMATCHED // for nonstop parsing
 	}
 }

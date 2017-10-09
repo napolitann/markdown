@@ -5,8 +5,6 @@ export default class {
 	static toHTML (source: MarkDown): HTML {
 		const tokens: Tokens | any = Tokenise.init(source)
 
-		console.log(tokens)
-
 		return JSON.stringify(tokens)
 	}
 }
