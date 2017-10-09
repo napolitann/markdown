@@ -39,3 +39,19 @@ describe('rendering', () => {
     expect(result).toEqual(AST)
   })
 })
+
+describe('bug', () => {
+  it.skip('render "ordered list" without indent', () => {
+    const result = Tokenise.init('+# heading')
+    const AST: never[] = []
+
+    expect(result).toEqual(AST)
+  })
+
+  it.skip('render "unordered list" without indent', () => {
+    const result = Tokenise.init('-# heading')
+    const AST: never[] = []
+
+    expect(result).toEqual(AST)
+  })
+})
