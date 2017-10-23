@@ -9,8 +9,6 @@ export default class Source {
 		this
 			.reduceLineCarriage()
 			.removeTab()
-		console.log(this.source)
-		console.log('------------------')
 		}
 
 	private reduceLineCarriage (): this {

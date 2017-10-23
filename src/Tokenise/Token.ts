@@ -16,7 +16,6 @@ export default class Token {
 	}
 
 	public isEnd (): boolean {
-		console.log('isEnd', this.cursor, this.count, this.count <= this.cursor)
 		return (this.count <= this.cursor)
 	}
 

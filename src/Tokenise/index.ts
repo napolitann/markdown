@@ -27,16 +27,7 @@ export default class Tokenise {
 	private init (): void {
 		let ast: AST
 
-		// let count = 0
-		// let MAX = 20
-
 		while (!this.token.isEnd()) {
-			// if (count === MAX) {
-			// 	return
-			// } else {
-			// 	console.log('------------------', count++)
-			// }
-
 			const char = this.token.nextChar()
 
 			if (this.flag.isFlagged(CONSTANT.LINE_CARRIAGE)) {

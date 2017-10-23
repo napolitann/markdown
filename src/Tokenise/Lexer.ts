@@ -1,5 +1,4 @@
 import CONSTANT from './CONSTANT'
-// import Source from './Source'
 import Token from './Token'
 
 export interface AST {
