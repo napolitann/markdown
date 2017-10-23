@@ -1,69 +1,78 @@
-import { MarkDown, Tokens } from '../types'
-import { TOKENS, TokenOptions } from './TOKENS'
+import CONSTANT from './CONSTANT'
 import Token from './Token'
-import Wrap from './Wrap'
+import Lexer, { AST } from './Lexer'
+import Flag from './Flag'
 
+export type HTML = string
 export type Char = string
 export type Index = number
 export type Pattern = RegExp
 
-// const SUCCESS = true
-const FAIL = false
-
-let token: Token
-
 export default class Tokenise {
-	private result: Tokens = []
-	private isSuccess: boolean
-
-	static init (source: MarkDown): Tokens | any {
-		return (new Tokenise(source)).result
+	private result: AST[] = []
+	private token: Token
+	private readonly lexer = new Lexer()
+	private readonly flag = new Flag()
+	
+	public static init (source: HTML): any {
+		return new Tokenise(source).result
 	}
 
-	private constructor (source: MarkDown) {
-		token = new Token(source)
+	private constructor (source: HTML) {
+		this.token = new Token(source)
 
 		this.init()
 	}
 
 	private init (): void {
-		while (!token.isEnd()) {
-			const char = token.nextToc()
+		let ast: AST
 
-			if (TOKENS.hasOwnProperty(char)) {
-				this.commit(TOKENS[char])
-			} else {
-				this.isSuccess = FAIL
+		// let count = 0
+		// let MAX = 20
+
+		while (!this.token.isEnd()) {
+			// if (count === MAX) {
+			// 	return
+			// } else {
+			// 	console.log('------------------', count++)
+			// }
+
+			const char = this.token.nextChar()
+
+			if (this.flag.isFlagged(CONSTANT.LINE_CARRIAGE)) {
+				this.flag.unflag(CONSTANT.LINE_CARRIAGE)
+
+				switch (char) {
+					case '#':
+						ast = this.lexer[CONSTANT.HEADINGS](this.token)
+						if (ast) this.commit(ast)
+						break
+					case '+':
+						ast = this.lexer[CONSTANT.ORDERED_LIST](this.token)
+						if (ast) this.commit(ast)
+						break
+					case '-':
+						ast = this.lexer[CONSTANT.UNORDERED_LIST](this.token)
+						if (ast) this.commit(ast)
+						break
+				}
+
+				continue
 			}
 
-			if (this.checkSuccess()) {
-				continue
-			} else {
-				token.remove(' ')
+			switch (char) {
+			case '\n':
+				this.flag.flag(CONSTANT.LINE_CARRIAGE)
+				ast = this.lexer[CONSTANT.LINE_CARRIAGE](this.token)
+				if (ast) this.commit(ast)
+				break
+			default:
+				this.token.removeUndefinedChar()
 			}
 		}
 	}
 
-	private commit (tokenOptions: TokenOptions): void {
-		const nextToken = token.nextToken(tokenOptions.pattern)
-		const wrapper = Wrap[tokenOptions.name]
-		const isSuccess = wrapper(nextToken, (match: string | RegExpMatchArray, result: any): void => {
-			return this.commitResult(match, result)
-		})
-
-		this.isSuccess = isSuccess
-	}
-
-	private checkSuccess (): boolean {
-		return this.isSuccess
-	}
-
-	private commitResult (match: string | RegExpMatchArray, result: any): void {
-		token.remove(match)
-		this.pushResult(result)
-	}
-
-	private pushResult (result: any): void {
-		this.result.push(result)
+	private commit (ast: AST): void {
+		this.result.push(ast)
 	}
 }

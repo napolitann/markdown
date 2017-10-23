@@ -1,17 +1,19 @@
 import Render from './Render'
-import { MarkDown, HTML } from './types'
 import example from './__example'
+
+export type MarkDown = string
+export type HTML = string
 
 export default class {
 	/**
 	 * markdown example
 	 */
-	static readonly example: MarkDown = example
+	public static readonly example: MarkDown = example
 
 	/**
 	 * render markdown to html
 	 */
-	static render (source: MarkDown): HTML {
+	public static render (source: MarkDown): HTML {
 		return Render.toHTML(source)
 	}
 }

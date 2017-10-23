@@ -1,10 +1,12 @@
-import { MarkDown, Tokens, HTML } from './types'
 import Tokenise from './Tokenise'
 
-export default class {
-	static toHTML (source: MarkDown): HTML {
-		const tokens: Tokens | any = Tokenise.init(source)
+export type MarkDown = string
+export type HTML = string
 
-		return JSON.stringify(tokens)
+export default class {
+	public static toHTML (source: MarkDown): HTML {
+		const AST = Tokenise.init(source)
+
+		return JSON.stringify(AST)
 	}
 }
