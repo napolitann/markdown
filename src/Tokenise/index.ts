@@ -3,7 +3,7 @@ import Token from './Token'
 import Lexer, { AST } from './Lexer'
 import Flag from './Flag'
 
-export type HTML = string
+export type MarkDown = string
 export type Char = string
 export type Index = number
 export type Pattern = RegExp
@@ -13,12 +13,12 @@ export default class Tokenise {
 	private token: Token
 	private readonly lexer = new Lexer()
 	private readonly flag = new Flag()
-	
-	public static init (source: HTML): any {
+
+	public static init (source: MarkDown): AST[] {
 		return new Tokenise(source).result
 	}
 
-	private constructor (source: HTML) {
+	private constructor (source: MarkDown) {
 		this.token = new Token(source)
 
 		this.init()
