@@ -36,17 +36,18 @@ export default class Tokenise {
 				switch (char) {
 					case '#':
 						ast = this.lexer[CONSTANT.HEADINGS](this.token)
-						if (ast) this.commit(ast)
 						break
 					case '+':
 						ast = this.lexer[CONSTANT.ORDERED_LIST](this.token)
-						if (ast) this.commit(ast)
 						break
 					case '-':
 						ast = this.lexer[CONSTANT.UNORDERED_LIST](this.token)
-						if (ast) this.commit(ast)
 						break
+					default:
+						continue
 				}
+
+				if (ast) this.commit(ast)
 
 				continue
 			}
